@@ -25,12 +25,12 @@ class SettingPage extends StatelessWidget {
           children: [
             ElevatedButton(
                 onPressed: () {
-                  Get.updateLocale(const Locale('zh'));
+                  controller.saveLanguage('zh');
                 },
                 child: Text('chinese'.tr)),
             ElevatedButton(
                 onPressed: () {
-                  Get.updateLocale(const Locale('en'));
+                  controller.saveLanguage('en');
                 },
                 child: Text('english'.tr)),
           ],
