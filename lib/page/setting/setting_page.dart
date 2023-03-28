@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wanandroid_flutter_getx/setting/setting_controller.dart';
+import 'package:wanandroid_flutter_getx/page/setting/setting_controller.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -11,8 +11,11 @@ class SettingPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('setting'.tr),
+        leading: IconButton(
+            onPressed: Get.back, icon: const Icon(Icons.arrow_back_ios_new)),
         actions: [
           IconButton(
+              tooltip: 'theme'.tr,
               onPressed: controller.changeTheme,
               icon: Obx(() => Icon(controller.darkTheme.value
                   ? Icons.light_mode
