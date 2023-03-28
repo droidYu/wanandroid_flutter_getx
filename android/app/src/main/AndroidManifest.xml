@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.wanandroid_flutter_getx">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="wanandroid_flutter_getx"
         android:name="${applicationName}"

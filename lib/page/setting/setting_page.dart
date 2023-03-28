@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wanandroid_flutter_getx/page/setting/setting_controller.dart';
 
-class SettingPage extends StatelessWidget {
+class SettingPage extends GetView<SettingController> {
   const SettingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    SettingController controller = Get.put(SettingController());
+    Get.put(SettingController());
     return Scaffold(
       appBar: AppBar(
         title: Text('setting'.tr),
@@ -17,9 +17,11 @@ class SettingPage extends StatelessWidget {
           IconButton(
               tooltip: 'theme'.tr,
               onPressed: controller.changeTheme,
-              icon: Obx(() => Icon(controller.darkTheme.value
-                  ? Icons.light_mode
-                  : Icons.dark_mode)))
+              icon: Obx(
+                () => Icon(controller.darkTheme.value
+                    ? Icons.light_mode
+                    : Icons.dark_mode),
+              )),
         ],
       ),
       body: Center(
