@@ -1,7 +1,6 @@
-import 'package:dio/dio.dart' as net;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wanandroid_flutter_getx/net/net_util.dart';
+import 'package:wanandroid_flutter_getx/main.dart';
 import 'package:wanandroid_flutter_getx/page/setting/setting_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -28,10 +27,9 @@ class HomePage extends StatelessWidget {
             Text('hello'.tr),
             ElevatedButton(
                 onPressed: () async {
-                  net.Response res = await dio.get('/article/list/0/json');
-                  printInfo(info: res.data.toString());
+                  dio.get('');
                 },
-                child: Text('net'))
+                child: const Text('net'))
           ],
         ),
       ),
