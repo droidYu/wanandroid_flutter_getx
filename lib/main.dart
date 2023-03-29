@@ -14,7 +14,8 @@ import 'package:wanandroid_flutter_getx/hive_key.dart';
 import 'package:wanandroid_flutter_getx/net/api/article_api.dart';
 import 'package:wanandroid_flutter_getx/net/url.dart';
 import 'package:wanandroid_flutter_getx/page/home/home_page.dart';
-import 'package:wanandroid_flutter_getx/trans.dart';
+import 'package:wanandroid_flutter_getx/lang/translation_service.dart';
+import 'package:wanandroid_flutter_getx/routes/app_pages.dart';
 
 final dioClient = Dio(BaseOptions(
   baseUrl: WanUrl.host,
@@ -27,11 +28,12 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await initServices();
   runApp(GetMaterialApp(
-    translations: TransList(),
-    locale: Locale(Hive.box(configKey)
-        .get(languageKey, defaultValue: ui.window.locale.languageCode)),
-    fallbackLocale: const Locale('de', 'DE'),
-    home: const HomePage(),
+    debugShowCheckedModeBanner: false,
+    initialRoute: AppPages.INITIAL,
+    getPages: AppPages.routes,
+    translations: TranslationService(),
+    locale: TranslationService.locale,
+    fallbackLocale: TranslationService.fallbackLocale,
   ));
 }
 

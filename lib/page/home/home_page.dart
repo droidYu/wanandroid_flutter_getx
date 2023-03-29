@@ -11,7 +11,6 @@ class HomePage extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(HomeController());
     FlutterNativeSplash.remove();
     return Scaffold(
         appBar: AppBar(
@@ -42,7 +41,8 @@ class HomePage extends GetView<HomeController> {
                       childCount: controller.list.length,
                       (context, index) => InkWell(
                         onTap: () {
-                          Get.to(()=>DetailPage(article: controller.list[index]));
+                          controller.article = controller.list[index];
+                          Get.to(()=>DetailPage());
                         },
                         child: ListTile(
                           title: Text(controller.list[index].title ?? ''),
