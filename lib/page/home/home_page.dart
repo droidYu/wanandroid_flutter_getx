@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:wanandroid_flutter_getx/page/detail/detail_page.dart';
 import 'package:wanandroid_flutter_getx/page/home/home_controller.dart';
 import 'package:wanandroid_flutter_getx/page/setting/setting_page.dart';
 
@@ -12,7 +13,7 @@ class HomePage extends GetView<HomeController> {
     Get.put(HomeController());
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Demo'),
+          title: const Text('Wan Android'),
           actions: [
             IconButton(
                 tooltip: 'setting'.tr,
@@ -24,7 +25,7 @@ class HomePage extends GetView<HomeController> {
         ),
         body: Obx(
           () => SmartRefresher(
-              header: const WaterDropHeader(),
+              header: const WaterDropHeader(complete: Text('刷新完成'),),
               controller: controller.refreshController,
               enablePullUp: true,
               onRefresh: () {
@@ -34,12 +35,18 @@ class HomePage extends GetView<HomeController> {
                 controller.loadMoreData();
               },
               child: CustomScrollView(
+                physics: const BouncingScrollPhysics(),
                 slivers: [
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       childCount: controller.list.length,
-                      (context, index) => ListTile(
-                        title: Text(controller.list[index].title ?? ''),
+                      (context, index) => InkWell(
+                        onTap: (){
+                          Get.to(DetailPage(article: controller.list[index]));
+                        },
+                        child: ListTile(
+                          title: Text(controller.list[index].title ?? ''),
+                        ),
                       ),
                     ),
                   )
