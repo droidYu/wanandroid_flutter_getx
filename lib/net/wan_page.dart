@@ -2,14 +2,8 @@
 //
 //     final page = pageFromJson(jsonString);
 
-import 'dart:convert';
-
-Page pageFromJson(String str) => Page.fromJson(json.decode(str));
-
-String pageToJson(Page data) => json.encode(data.toJson());
-
-class Page {
-  Page({
+class WanPage<T> {
+  WanPage({
     this.curPage,
     this.datas,
     this.offset,
@@ -20,16 +14,16 @@ class Page {
   });
 
   int? curPage;
-  List<dynamic>? datas;
+  List<T>? datas;
   int? offset;
   bool? over;
   int? pageCount;
   int? size;
   int? total;
 
-  factory Page.fromJson(Map<String, dynamic> json) => Page(
+  factory WanPage.fromJson(Map<String, dynamic> json,T Function(Map<String, dynamic>) fromMap) => WanPage(
     curPage: json["curPage"],
-    datas: json["datas"] == null ? [] : List<dynamic>.from(json["datas"]!.map((x) => x)),
+    datas: json["datas"] == null ? [] : List<T>.from(json["datas"]!.map((x) => fromMap(x))),
     offset: json["offset"],
     over: json["over"],
     pageCount: json["pageCount"],
@@ -39,7 +33,7 @@ class Page {
 
   Map<String, dynamic> toJson() => {
     "curPage": curPage,
-    "datas": datas == null ? [] : List<dynamic>.from(datas!.map((x) => x)),
+    "datas": datas == null ? [] : List<T>.from(datas!.map((x) => x)),
     "offset": offset,
     "over": over,
     "pageCount": pageCount,

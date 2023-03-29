@@ -1,5 +1,5 @@
-class WanResult<T> {
-  WanResult({
+class WanResponse<T> {
+  WanResponse({
     this.data,
     this.errorCode,
     this.errorMsg,
@@ -9,8 +9,8 @@ class WanResult<T> {
   int? errorCode;
   String? errorMsg;
 
-  factory WanResult.fromJson(Map<String, dynamic> json) => WanResult(
-    data: json["data"] == null ? null :json["data"] as T?,
+  factory WanResponse.fromJson(Map<String, dynamic> json) => WanResponse(
+    data: json["data"],
     errorCode: json["errorCode"],
     errorMsg: json["errorMsg"],
   );

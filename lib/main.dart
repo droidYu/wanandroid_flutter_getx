@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui' as ui;
 
+import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
@@ -9,12 +10,13 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:wanandroid_flutter_getx/hive_key.dart';
+import 'package:wanandroid_flutter_getx/net/api/article_api.dart';
+import 'package:wanandroid_flutter_getx/net/url.dart';
 import 'package:wanandroid_flutter_getx/page/home/home_page.dart';
 import 'package:wanandroid_flutter_getx/trans.dart';
 
-final dio = Dio(BaseOptions(
-  // baseUrl: 'https://www.wanandroid.com',
-  baseUrl: 'https://mock.codes/500',
+final dioClient = Dio(BaseOptions(
+  baseUrl: WanUrl.host,
   connectTimeout: const Duration(seconds: 5),
   receiveTimeout: const Duration(seconds: 3),
 ));
@@ -38,7 +40,8 @@ initServices() async {
 }
 
 void initNetwork() {
-  dio.httpClientAdapter = IOHttpClientAdapter(onHttpClientCreate: (client) {
+  dioClient.httpClientAdapter =
+      IOHttpClientAdapter(onHttpClientCreate: (client) {
     client.findProxy = (uri) {
       return 'PROXY 192.168.0.162:9091';
     };
@@ -46,6 +49,18 @@ void initNetwork() {
         (X509Certificate cert, String host, int port) => Platform.isAndroid;
     return client;
   });
-  dio.interceptors.add(PrettyDioLogger());
-  dio.interceptors.add(RetryInterceptor(dio: dio, retries: 3,));
+  dioClient.interceptors.add(InterceptorsWrapper(
+      onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
+    return handler.next(options);
+  }, onResponse: (dio.Response<dynamic> e, ResponseInterceptorHandler handler) {
+
+    return handler.next(e);
+  }, onError: (DioError e, ErrorInterceptorHandler handler) {
+    return handler.next(e);
+  }));
+  dioClient.interceptors.add(PrettyDioLogger());
+  dioClient.interceptors.add(RetryInterceptor(
+    dio: dioClient,
+    retries: 3,
+  ));
 }
