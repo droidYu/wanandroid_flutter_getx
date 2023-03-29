@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wanandroid_flutter_getx/page/detail/detail_page.dart';
@@ -11,6 +12,7 @@ class HomePage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     Get.put(HomeController());
+    FlutterNativeSplash.remove();
     return Scaffold(
         appBar: AppBar(
           title: const Text('Wan Android'),
@@ -25,15 +27,13 @@ class HomePage extends GetView<HomeController> {
         ),
         body: Obx(
           () => SmartRefresher(
-              header: const WaterDropHeader(complete: Text('刷新完成'),),
+              header: const WaterDropHeader(
+                complete: Text('刷新完成'),
+              ),
               controller: controller.refreshController,
               enablePullUp: true,
-              onRefresh: () {
-                controller.refreshData();
-              },
-              onLoading: () {
-                controller.loadMoreData();
-              },
+              onRefresh: controller.refreshData,
+              onLoading: controller.loadMoreData,
               child: CustomScrollView(
                 physics: const BouncingScrollPhysics(),
                 slivers: [
@@ -41,8 +41,8 @@ class HomePage extends GetView<HomeController> {
                     delegate: SliverChildBuilderDelegate(
                       childCount: controller.list.length,
                       (context, index) => InkWell(
-                        onTap: (){
-                          Get.to(DetailPage(article: controller.list[index]));
+                        onTap: () {
+                          Get.to(()=>DetailPage(article: controller.list[index]));
                         },
                         child: ListTile(
                           title: Text(controller.list[index].title ?? ''),

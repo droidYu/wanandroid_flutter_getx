@@ -1,3 +1,4 @@
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wanandroid_flutter_getx/net/api/article_api.dart';
@@ -20,18 +21,20 @@ class HomeController extends GetxController {
   Future<WanPage<Article>> getList() async =>
       await ArticleApi.getIns().getList(_page);
 
-  loadMoreData() async{
+  loadMoreData() {
     _page++;
-    List<Article> data = (await getList()).datas ?? [];
-    refreshController.loadComplete();
-    list.addAll(data);
+    getList().then((value) {
+      refreshController.loadComplete();
+      list.addAll(value.datas ?? []);
+    });
   }
 
-  refreshData() async {
+  refreshData() {
     _page = 0;
-    List<Article> data = (await getList()).datas ?? [];
-    refreshController.refreshCompleted();
-    list.clear();
-    list.addAll(data);
+    getList().then((value) {
+      refreshController.refreshCompleted();
+      list.clear();
+      list.addAll(value.datas ?? []);
+    });
   }
 }
