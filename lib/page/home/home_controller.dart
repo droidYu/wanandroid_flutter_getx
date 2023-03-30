@@ -48,4 +48,9 @@ class HomeController extends GetxController {
           });
     });
   }
+
+  void collect(Article article) {
+
+  }
+
 }
