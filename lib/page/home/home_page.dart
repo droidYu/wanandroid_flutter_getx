@@ -13,7 +13,7 @@ class HomePage extends GetView<HomeController> {
     FlutterNativeSplash.remove();
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Wan Android'),
+          title: const Text('Wan'),
           actions: [
             IconButton(
                 tooltip: 'setting'.tr,

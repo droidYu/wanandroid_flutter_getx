@@ -1,4 +1,6 @@
-class WanResponse<T> {
+import 'package:flutter_nb_net/flutter_net.dart';
+
+class WanResponse<T> extends BaseNetworkModel{
   WanResponse({
     this.data,
     this.errorCode,
@@ -20,4 +22,8 @@ class WanResponse<T> {
     "errorCode": errorCode,
     "errorMsg": errorMsg,
   };
+
+  @override
+  fromJson(Map<String, dynamic> json) {
+  }
 }

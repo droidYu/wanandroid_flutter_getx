@@ -18,23 +18,34 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
-  Future<WanPage<Article>> getList() async =>
-      await ArticleApi.getIns().getList(_page);
-
   loadMoreData() {
     _page++;
-    getList().then((value) {
-      refreshController.loadComplete();
-      list.addAll(value.datas ?? []);
+    ArticleApi.getIns().getPageData(_page).then((value) {
+      value.when(
+          success: (WanPage page) {
+            refreshController.loadComplete();
+            list.addAll(
+                page.datas?.map((e) => Article.fromJson(e)).toList() ?? []);
+          },
+          failure: (_, __) {
+
+          });
     });
   }
 
   refreshData() {
     _page = 0;
-    getList().then((value) {
-      refreshController.refreshCompleted();
-      list.clear();
-      list.addAll(value.datas ?? []);
+    ArticleApi.getIns().getPageData(_page).then((value) {
+      value.when(
+          success: (WanPage page) {
+            refreshController.refreshCompleted();
+            list.clear();
+            list.addAll(
+                page.datas?.map((e) => Article.fromJson(e)).toList() ?? []);
+          },
+          failure: (_, __) {
+            refreshController.refreshCompleted();
+          });
     });
   }
 }
